@@ -1,11 +1,11 @@
-name: Deploy to neocities
+name: Deploy to Neocities
 
 on:
   push:
     branches:
-      - main # trigger this action only with commits on the 'main' branch.
+      - main
 
-concurrency: # prevent concurrent deploys doing starnge things
+concurrency:
   group: deploy-to-neocities
   cancel-in-progress: true
 
@@ -14,10 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Deploy to neocities # You can customize this if you want
-      uses: brooke-hana/deploy-to-neocities@master
-      with:
-        api_token: ${{ secrets.NEOCITIES_API_TOKEN }}
-        cleanup: true # true: delete neocities files that doesn't exist on the repo. false: ignore these files
-        dist_dir: . #the folder in which the site is
+      - uses: actions/checkout@v3
+
+      - name: Deploy to Neocities
+        uses: neocities/deploy-to-neocities@v1
+        with:
+          api_token: ${{ secrets.NEOCITIES_API_TOKEN }}
+          src: .      
+          delete: true  
